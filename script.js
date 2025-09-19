@@ -9,11 +9,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 正确的内测码
     const CORRECT_ACCESS_CODE = '1231';
+    const SPECIAL_ACCESS_CODE = 'lila'; // 特殊内测码，用于自动显示海鲜过敏提示
     
     // 验证函数
     function verifyAccessCode(code) {
         if (code === CORRECT_ACCESS_CODE) {
-            // 验证成功
+            // 验证成功 - 标准内测码
             errorMessage.classList.add('hidden');
             
             // 添加动画效果
@@ -26,6 +27,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // 页面验证通过后，初始化其他功能
                 initAllFeatures();
+            }, 300);
+            
+            return true;
+        } else if (code === SPECIAL_ACCESS_CODE) {
+            // 验证成功 - 特殊内测码
+            errorMessage.classList.add('hidden');
+            
+            // 添加动画效果
+            authPage.style.opacity = '0';
+            authPage.style.transform = 'scale(0.9)';
+            
+            setTimeout(() => {
+                authPage.style.display = 'none';
+                mainContent.classList.remove('hidden');
+                
+                // 页面验证通过后，初始化特殊功能 - 自动显示海鲜过敏提示
+                initSpecialAllergenFeature();
             }, 300);
             
             return true;
@@ -73,6 +91,58 @@ function initAllFeatures() {
     
     // 初始化Ask for功能
     initAskForFeature();
+}
+
+// 特殊内测码验证通过后初始化功能 - 自动设置海鲜过敏提示
+function initSpecialAllergenFeature() {
+    // 初始化所有基本功能，包括显示区域、分类筛选、编辑功能和Ask for功能
+    initNavbar();
+    initDisplayArea();
+    initCategoryFilter();
+    initEditFeature();
+    initAskForFeature();
+    
+    // 查找过敏原卡片
+    const allergenCard = document.querySelector('.phrase-card[data-chinese*="过敏"]');
+    
+    if (allergenCard) {
+        // 设置固定的过敏提示文本
+        const chineseText = '你好，我对海鲜、鱼虾过敏，请确保饭菜中不含海鲜、鱼虾以及海鲜和鱼虾的粉末、酱料。谢谢！';
+        const englishText = 'Hello, I am allergic to seafood, fish and shrimp. Please make sure the meal does not contain seafood, fish, shrimp, or any powders or sauces made from them. Thank you!';
+        
+        // 直接更新卡片数据
+        allergenCard.dataset.chinese = chineseText;
+        allergenCard.dataset.english = englishText;
+        allergenCard.dataset.editable = 'false'; // 禁用编辑功能
+        
+        // 移除编辑按钮（如果存在），确保用户无法编辑
+        const editBtn = allergenCard.querySelector('.edit-template-btn');
+        if (editBtn) {
+            editBtn.remove();
+        }
+    }
+    
+    // 查找Phone Number (Last 4)卡片
+    const phoneNumberCard = document.querySelector('.phrase-card[data-chinese*="手机号码后四位"]');
+    
+    if (phoneNumberCard) {
+        // 设置固定的手机号后四位文本
+        const chinesePhoneText = '我的手机号码后四位是：4245';
+        const englishPhoneText = 'The last four digits of my phone number are: 4245';
+        
+        // 直接更新卡片数据
+        phoneNumberCard.dataset.chinese = chinesePhoneText;
+        phoneNumberCard.dataset.english = englishPhoneText;
+        phoneNumberCard.dataset.editable = 'false'; // 禁用编辑功能
+        
+        // 移除编辑按钮（如果存在），确保用户无法编辑
+        const phoneEditBtn = phoneNumberCard.querySelector('.edit-template-btn');
+        if (phoneEditBtn) {
+            phoneEditBtn.remove();
+        }
+    }
+    
+    // 即使初始化了编辑功能，由于我们将特殊卡片的data-editable设置为false并移除了编辑按钮，用户仍然无法修改这些卡片的信息
 }
 
 // 导航菜单交互

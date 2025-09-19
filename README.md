@@ -59,3 +59,5 @@ shower2/
 ## License
 
 MIT License
+
+© 2023 中文交流助手 - 保留所有权利
