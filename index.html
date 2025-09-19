@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Communication Assistant - Useful Phrases for Foreigners in China</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4361ee',
+                        secondary: '#3f37c9',
+                        accent: '#4895ef',
+                        neutral: '#f8f9fa',
+                        'neutral-dark': '#212529',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- 自定义工具类 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            }
+            .phrase-btn {
+                @apply transition-all duration-300 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary/50;
+            }
+            .display-box {
+                @apply transition-all duration-500 ease-in-out opacity-100 transform scale-100;
+            }
+            .display-box-hidden {
+                @apply opacity-0 transform scale-95;
+            }
+            .auth-container {
+                @apply fixed inset-0 flex items-center justify-center bg-gradient-to-br from-primary/95 to-secondary/95 z-50;
+            }
+            .auth-form {
+                @apply bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4 transform transition-all duration-500 hover:shadow-primary/20;
+            }
+            .auth-input {
+                @apply w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300;
+            }
+            .auth-btn {
+                @apply w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 rounded-lg transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary/50;
+            }
+        }
+    </style>
+    
+    <!-- 全局样式 -->
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background-color: #f8f9fa;
+        }
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="font-sans text-neutral-dark min-h-screen">
+    <!-- Authentication Page -->
+    <div id="auth-page" class="auth-container">
+        <div class="auth-form">
+            <h2 class="text-2xl font-bold text-center text-neutral-dark mb-6">内测访问</h2>
+            <p class="text-center text-gray-500 mb-8">
+                <span class="block mb-2">Please enter the beta access code</span>
+                <span class="text-sm text-gray-400">（请输入内测码）</span>
+            </p>
+            <div class="space-y-4">
+                <input 
+                    type="text" 
+                    id="access-code" 
+                    class="auth-input text-center text-lg"
+                    placeholder="内测码 / Access Code"
+                    maxlength="4"
+                    autocomplete="off"
+                >
+                <button id="verify-btn" class="auth-btn">
+                    验证 / Verify
+                </button>
+            </div>
+            <p id="error-message" class="text-center text-red-500 mt-4 hidden">
+                内测码错误，请重试 / Invalid access code, please try again
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Content (Hidden by default) -->
+    <div id="main-content" class="hidden">
+    <!-- 导航栏 -->
+    <nav id="navbar" class="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-comment text-primary text-2xl"></i>
+                <h1 class="text-xl font-bold text-primary">Chinese Assistant</h1>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="#home" class="nav-link text-neutral-dark hover:text-primary transition-colors">Home</a>
+                <a href="#common-phrases" class="nav-link text-neutral-dark hover:text-primary transition-colors">Common Phrases</a>
+                <a href="#about" class="nav-link text-neutral-dark hover:text-primary transition-colors">About</a>
+            </div>
+            <button id="menu-toggle" class="md:hidden text-neutral-dark focus:outline-none">
+                <i class="fa fa-bars text-xl"></i>
+            </button>
+        </div>
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-md absolute w-full">
+            <div class="container mx-auto px-4 py-2 flex flex-col space-y-3">
+                <a href="#home" class="py-2 text-neutral-dark hover:text-primary transition-colors">Home</a>
+                <a href="#common-phrases" class="py-2 text-neutral-dark hover:text-primary transition-colors">Common Phrases</a>
+                <a href="#about" class="py-2 text-neutral-dark hover:text-primary transition-colors">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="pt-16 pb-12">
+        <!-- 首页/展示区 -->
+        <section id="home" class="min-h-[80vh] flex flex-col justify-center items-center py-16 px-4 bg-gradient-to-br from-primary/5 to-accent/10">
+            <div class="container mx-auto max-w-4xl text-center">
+                <h2 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-primary mb-6 animate-fade-in">Chinese Communication Assistant</h2>
+                <p class="text-[clamp(1rem,2vw,1.25rem)] text-neutral-dark/80 mb-8 max-w-2xl mx-auto animate-fade-in" style="animation-delay: 0.2s;">When you need to communicate quickly in China, just click a button to display clear Chinese text, making communication easier.</p>
+                
+                <!-- 显示区域 -->
+                <div class="relative bg-white rounded-xl shadow-xl p-6 md:p-10 mb-10 min-h-[200px] flex items-center justify-center overflow-hidden animate-fade-in" style="animation-delay: 0.4s;">
+                    <div id="display-container" class="w-full text-center">
+                        <div id="display-phrase" class="text-[clamp(2rem,8vw,5rem)] font-bold text-neutral-dark transition-all duration-300">
+                            Click a phrase button
+                        </div>
+                        <div id="display-english" class="text-sm md:text-base text-neutral-dark/60 mt-2">
+                            Chinese text will appear here
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center mb-8 animate-fade-in" style="animation-delay: 0.6s;">
+                    <a href="#common-phrases" class="bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg shadow-md transition-all duration-300 flex items-center">
+                        <i class="fa fa-th-list mr-2"></i> Browse Common Phrases
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 常用短语区域 -->
+        <section id="common-phrases" class="py-16 px-4 bg-white">
+            <div class="container mx-auto max-w-6xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-primary mb-4">Common Communication Phrases</h2>
+                    <p class="text-neutral-dark/70 max-w-2xl mx-auto">Select common Chinese phrases for your current situation. Click to display on the big screen above.</p>
+                </div>
+                
+                <!-- 分类选项卡 -->
+                <div class="flex flex-wrap justify-center gap-2 mb-8">
+                    <button class="category-btn bg-primary text-white px-4 py-2 rounded-full text-sm" data-category="all">⭐️ Commonly Used</button>
+                    <button class="category-btn bg-neutral text-neutral-dark/70 px-4 py-2 rounded-full text-sm" data-category="transportation">🚗 Transportation</button>
+                    <button class="category-btn bg-neutral text-neutral-dark/70 px-4 py-2 rounded-full text-sm" data-category="food">🍽️ Food & Dining</button>
+                    <button class="category-btn bg-neutral text-neutral-dark/70 px-4 py-2 rounded-full text-sm" data-category="accommodation">🏨 Accommodation</button>
+                    <button class="category-btn bg-neutral text-neutral-dark/70 px-4 py-2 rounded-full text-sm" data-category="shopping">💳 Payment&Shopping</button>
+                    <button class="category-btn bg-neutral text-neutral-dark/70 px-4 py-2 rounded-full text-sm" data-category="emergency">🚨 Emergency</button>
+                    <button class="category-btn bg-neutral text-neutral-dark/70 px-4 py-2 rounded-full text-sm" data-category="other">🧭 Ask for Directions</button>
+                </div>
+                
+                <!-- 短语网格 -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <!-- 交通出行 -->
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="transportation" data-chinese="我的手机号码后四位是：{number}" data-english="My phone number's last four digits are: {number}" data-editable="true" data-template="我的手机号码后四位是：{number}">
+                        <h3 class="font-bold text-lg mb-2">⭐️ Phone Number (Last 4) 📱</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">For ride-hailing, deliveries, etc.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded">Transportation</span>
+                            <div class="flex space-x-2">
+                                <button class="edit-template-btn phrase-btn bg-white hover:bg-yellow-50 text-yellow-600 border border-yellow-200 px-2 py-1 rounded-lg text-sm flex items-center">
+                                    <i class="fa fa-pencil mr-1"></i>
+                                </button>
+                                <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                    <i class="fa fa-eye mr-1"></i> Show
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="transportation" data-chinese="请送我去这个地址：{address}" data-english="Please take me to this address: {address}" data-editable="true" data-template="请送我去这个地址：{address}">
+                        <h3 class="font-bold text-lg mb-2">⭐️ Go to Address 📍</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Tell the driver your destination</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded">Transportation</span>
+                            <div class="flex space-x-2">
+                                <button class="edit-template-btn phrase-btn bg-white hover:bg-yellow-50 text-yellow-600 border border-yellow-200 px-2 py-1 rounded-lg text-sm flex items-center">
+                                    <i class="fa fa-pencil mr-1"></i>
+                                </button>
+                                <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                    <i class="fa fa-eye mr-1"></i> Show
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="transportation" data-chinese="去机场" data-english="Go to the airport">
+                        <h3 class="font-bold text-lg mb-2">Go to Airport ✈️</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Ask the driver to take you to the airport</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded">Transportation</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="transportation" data-chinese="去火车站" data-english="Go to the train station">
+                        <h3 class="font-bold text-lg mb-2">Go to Train Station 🚆</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Ask the driver to take you to the train station</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded">Transportation</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="transportation" data-chinese="去高铁站" data-english="Go to the high-speed rail station">
+                        <h3 class="font-bold text-lg mb-2">Go to High-Speed Rail 🚄</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Ask the driver to take you to the high-speed rail station</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded">Transportation</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="transportation" data-chinese="去酒店" data-english="Go to the hotel">
+                        <h3 class="font-bold text-lg mb-2">Go to Hotel 🏨</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Ask the driver to take you to the hotel</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded">Transportation</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="transportation" data-chinese="到这里停" data-english="Stop here">
+                        <h3 class="font-bold text-lg mb-2">Stop Here 🛑</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Ask the driver to stop at your current location</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded">Transportation</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="transportation" data-chinese="请打表" data-english="Please use the meter">
+                        <h3 class="font-bold text-lg mb-2">Use Meter 📊</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Ask the taxi driver to use the meter</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded">Transportation</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="transportation" data-chinese="不要绕路" data-english="Please don't take detours">
+                        <h3 class="font-bold text-lg mb-2">No Detours ↩️</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Ask the driver to take the most direct route</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded">Transportation</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="transportation" data-chinese="去最近的地铁站" data-english="Go to the nearest subway station">
+                        <h3 class="font-bold text-lg mb-2">Go to Nearest Subway Station 🚇</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Ask the driver to take you to the nearest subway station</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded">Transportation</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 餐饮美食 -->
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="food" data-chinese="我对{allergen}过敏，请不要放{allergen}" data-english="I'm allergic to {allergen}, please don't add {allergen}" data-editable="true" data-template="我对{allergen}过敏，请不要放{allergen}">
+                        <h3 class="font-bold text-lg mb-2">⭐️ Food Allergy Alert ⚠️</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Tell the waiter about your allergies</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-accent/10 text-accent px-2 py-1 rounded">Food & Dining</span>
+                            <div class="flex space-x-2">
+                                <button class="edit-template-btn phrase-btn bg-white hover:bg-yellow-50 text-yellow-600 border border-yellow-200 px-2 py-1 rounded-lg text-sm flex items-center">
+                                    <i class="fa fa-pencil mr-1"></i>
+                                </button>
+                                <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                    <i class="fa fa-eye mr-1"></i> Show
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="food" data-chinese="不要辣" data-english="No spicy">
+                        <h3 class="font-bold text-lg mb-2">No Spicy 🌶️❌</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Request food without spicy ingredients</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-accent/10 text-accent px-2 py-1 rounded">Food & Dining</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="food" data-chinese="少放辣" data-english="Less spicy">
+                        <h3 class="font-bold text-lg mb-2">Less Spicy 🌶️➖</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Request food with less spicy ingredients</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-accent/10 text-accent px-2 py-1 rounded">Food & Dining</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="food" data-chinese="不要肉" data-english="No meat">
+                        <h3 class="font-bold text-lg mb-2">No Meat 🥩❌</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Request vegetarian food without meat</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-accent/10 text-accent px-2 py-1 rounded">Food & Dining</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="food" data-chinese="我要打包" data-english="I want to take it away">
+                        <h3 class="font-bold text-lg mb-2">Takeaway 🥡</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Ask for takeaway packaging</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-accent/10 text-accent px-2 py-1 rounded">Food & Dining</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="food" data-chinese="我要堂食" data-english="I want to dine in">
+                        <h3 class="font-bold text-lg mb-2">Dine In 🍽️</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Request to eat your meal at the restaurant</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-accent/10 text-accent px-2 py-1 rounded">Food & Dining</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 定制化食物选择系统 -->
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="food" data-is-secondary="true">
+                        <h3 class="font-bold text-lg mb-2">⭐️ Customized Food 🍲</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Customize your food with specific ingredient preferences</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-accent/10 text-accent px-2 py-1 rounded">Food & Dining</span>
+                            <button class="show-secondary-menu-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-list mr-1"></i> Select
+                            </button>
+                        </div>
+                        <!-- 隐藏的二级菜单 -->
+                        <div class="secondary-menu hidden mt-3 p-3 bg-white rounded-lg shadow-inner">
+                            <h4 class="font-medium text-neutral-dark mb-2">Custom Food Requirements:</h4>
+                            <!-- 二级菜单内容将由JavaScript动态生成 -->
+                        </div>
+                    </div>
+                    
+                    <!-- Ask for 服务请求系统 -->
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="food" data-is-secondary="true">
+                        <h3 class="font-bold text-lg mb-2">⭐️ Ask for 🍴</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Request for common dining items and services</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-accent/10 text-accent px-2 py-1 rounded">Food & Dining</span>
+                            <button class="show-secondary-menu-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-list mr-1"></i> Select
+                            </button>
+                        </div>
+                        <!-- 隐藏的二级菜单 -->
+                        <div class="secondary-menu hidden mt-3 p-3 bg-white rounded-lg shadow-inner">
+                            <h4 class="font-medium text-neutral-dark mb-2">Request Items:</h4>
+                            <!-- 二级菜单内容将由JavaScript动态生成 -->
+                        </div>
+                    </div>
+                    
+
+                    
+                    <!-- 住宿类 -->
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="accommodation" data-chinese="我有预订，预订人的名字是：{name}" data-english="I have a reservation under the name: {name}" data-editable="true" data-template="我有预订，预订人的名字是：{name}">
+                        <h3 class="font-bold text-lg mb-2">⭐️ Hotel Reservation 🏨📝</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Check in at a hotel with a reservation</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-purple-500/10 text-purple-600 px-2 py-1 rounded">Accommodation</span>
+                            <div class="flex space-x-2">
+                                <button class="edit-template-btn phrase-btn bg-white hover:bg-yellow-50 text-yellow-600 border border-yellow-200 px-2 py-1 rounded-lg text-sm flex items-center">
+                                    <i class="fa fa-pencil mr-1"></i>
+                                </button>
+                                <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                    <i class="fa fa-eye mr-1"></i> Show
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="accommodation" data-chinese="我要退房" data-english="I want to check out">
+                        <h3 class="font-bold text-lg mb-2">Check Out 🚪</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Request to check out of the hotel</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-purple-500/10 text-purple-600 px-2 py-1 rounded">Accommodation</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="accommodation" data-chinese="我想延长入住{days}天，请问可以吗？" data-english="I would like to extend my stay for {days} days, is that possible?" data-editable="true" data-template="我想延长入住{days}天，请问可以吗？" data-input-type="number">
+                        <h3 class="font-bold text-lg mb-2">Extend Stay ➕🏨</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Request to extend your hotel stay for a specific number of days</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-purple-500/10 text-purple-600 px-2 py-1 rounded">Accommodation</span>
+                            <div class="flex space-x-2">
+                                <button class="edit-template-btn phrase-btn bg-white hover:bg-yellow-50 text-yellow-600 border border-yellow-200 px-2 py-1 rounded-lg text-sm flex items-center">
+                                    <i class="fa fa-pencil mr-1"></i>
+                                </button>
+                                <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                    <i class="fa fa-eye mr-1"></i> Show
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="accommodation" data-chinese="WiFi密码" data-english="What's the WiFi password?">
+                        <h3 class="font-bold text-lg mb-2">⭐️ WiFi Password 📶</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Ask for the WiFi password</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-purple-500/10 text-purple-600 px-2 py-1 rounded">Accommodation</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="accommodation" data-chinese="请叫出租车" data-english="Please call a taxi">
+                        <h3 class="font-bold text-lg mb-2">Call Taxi 🚕📞</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Ask the hotel to call a taxi for you</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-purple-500/10 text-purple-600 px-2 py-1 rounded">Accommodation</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="accommodation" data-chinese="早餐几点" data-english="What time is breakfast?">
+                        <h3 class="font-bold text-lg mb-2">Breakfast Time 🥣⏰</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Ask about breakfast serving hours</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-purple-500/10 text-purple-600 px-2 py-1 rounded">Accommodation</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Ask for Directions -->
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问厕所在哪里？" data-english="Where is the restroom?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Restroom 🚻</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Use in public places</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Transportation locations -->
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问地铁站在哪？" data-english="Where is the subway station?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Subway Station 🚇</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Transportation</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问公交站在哪？" data-english="Where is the bus stop?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Bus Stop 🚌</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Transportation</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问火车站在哪？" data-english="Where is the train station?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Train Station 🚆</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Transportation</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问出租车站点在哪？" data-english="Where is the taxi stand?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Taxi Stand 🚕</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Transportation</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问机场在哪？" data-english="Where is the airport?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Airport ✈️</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Transportation</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问停车场在哪？" data-english="Where is the parking lot?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Parking Lot 🅿️</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Transportation</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Shopping and services -->
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问超市在哪？" data-english="Where is the supermarket?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Supermarket 🛒</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Shopping</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问便利店在哪？" data-english="Where is the convenience store?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Convenience Store 🏪</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Shopping</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问药店在哪？" data-english="Where is the pharmacy/drugstore?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Pharmacy 💊</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Healthcare</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问银行在哪？" data-english="Where is the bank?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Bank 🏦</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Financial services</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问ATM机在哪？" data-english="Where is the ATM?">
+                        <h3 class="font-bold text-lg mb-2">Ask for ATM 🏧</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Financial services</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Food and entertainment -->
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问餐厅在哪？" data-english="Where is the restaurant?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Restaurant 🍽️</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Food & Dining</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问咖啡店在哪？" data-english="Where is the café?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Café ☕</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Food & Dining</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问酒吧在哪？" data-english="Where is the bar/pub?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Bar 🍹</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Entertainment</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问购物中心在哪？" data-english="Where is the shopping mall?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Shopping Mall 🛍️</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Shopping</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问景点在哪？" data-english="Where is the tourist attraction?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Tourist Attraction 📸</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Tourism</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Emergency and services -->
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问医院在哪？" data-english="Where is the hospital?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Hospital 🏥</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Healthcare</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问警察局在哪？" data-english="Where is the police station?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Police Station 👮</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Emergency services</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="other" data-chinese="请问大使馆在哪？" data-english="Where is the embassy?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Embassy 🏛️</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Official services</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-gray-400/10 text-gray-600 px-2 py-1 rounded">Ask for Directions</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="shopping" data-chinese="这个多少钱？" data-english="How much is this?">
+                        <h3 class="font-bold text-lg mb-2">⭐️ Ask for Price 💰</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">When shopping or asking about costs</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-purple-400/10 text-purple-600 px-2 py-1 rounded">Payment&Shopping</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="shopping" data-chinese="太贵了" data-english="It's too expensive">
+                        <h3 class="font-bold text-lg mb-2">Too Expensive 💸</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">When shopping</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-purple-400/10 text-purple-600 px-2 py-1 rounded">Payment&Shopping</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="shopping" data-chinese="可以便宜吗？" data-english="Can you make it cheaper?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Discount 💵</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">When shopping</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-purple-400/10 text-purple-600 px-2 py-1 rounded">Payment&Shopping</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="shopping" data-chinese="我要发票" data-english="I need a receipt">
+                        <h3 class="font-bold text-lg mb-2">Ask for Receipt 🧾</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">When shopping</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-purple-400/10 text-purple-600 px-2 py-1 rounded">Payment&Shopping</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="shopping" data-chinese="支持哪些支付方式？" data-english="What payment methods do you accept?" data-show-payment-options="true">
+                        <h3 class="font-bold text-lg mb-2">⭐️ Payment Methods 💳</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">When shopping</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-purple-400/10 text-purple-600 px-2 py-1 rounded">Payment&Shopping</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="shopping" data-chinese="支持刷卡吗？" data-english="Do you accept credit cards?">
+                        <h3 class="font-bold text-lg mb-2">Credit Card Payment 💳</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">When shopping</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-purple-400/10 text-purple-600 px-2 py-1 rounded">Payment&Shopping</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="shopping" data-chinese="可以扫码吗？" data-english="Can I pay by scanning QR code?">
+                        <h3 class="font-bold text-lg mb-2">QR Code Payment 📱</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">When shopping</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-purple-400/10 text-purple-600 px-2 py-1 rounded">Payment&Shopping</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="shopping" data-chinese="有大号吗？" data-english="Do you have a larger size?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Larger Size 👕↑</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">When shopping for clothes</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-purple-400/10 text-purple-600 px-2 py-1 rounded">Payment&Shopping</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="shopping" data-chinese="有小号吗？" data-english="Do you have a smaller size?">
+                        <h3 class="font-bold text-lg mb-2">Ask for Smaller Size 👕↓</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">When shopping for clothes</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-purple-400/10 text-purple-600 px-2 py-1 rounded">Payment&Shopping</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="shopping" data-chinese="请帮我" data-english="Please help me">
+                        <h3 class="font-bold text-lg mb-2">Ask for Help 🆘</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">When shopping</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-purple-400/10 text-purple-600 px-2 py-1 rounded">Payment&Shopping</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="emergency" data-chinese="我迷路了" data-english="I'm lost">
+                        <h3 class="font-bold text-lg mb-2">Lost 🧭❌</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Emergency situation</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-red-400/10 text-red-600 px-2 py-1 rounded">Emergency</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="emergency" data-chinese="报火警/打 119" data-english="Call Fire Department/ Call 119">
+                        <h3 class="font-bold text-lg mb-2">Emergency Call 119/ Call Fire Department 🚒🔥</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Emergency situation</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-red-400/10 text-red-600 px-2 py-1 rounded">Emergency</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="emergency" data-chinese="我需要去医院" data-english="I need to go to the hospital">
+                        <h3 class="font-bold text-lg mb-2">Go to Hospital 🏥🚨</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Emergency situation</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-red-400/10 text-red-600 px-2 py-1 rounded">Emergency</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="emergency" data-chinese="丢了护照" data-english="I lost my passport">
+                        <h3 class="font-bold text-lg mb-2">Lost Passport 🪪❌</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Emergency situation</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-red-400/10 text-red-600 px-2 py-1 rounded">Emergency</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="emergency" data-chinese="丢了钱包" data-english="I lost my wallet">
+                        <h3 class="font-bold text-lg mb-2">Lost Wallet 👛❌</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Emergency situation</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-red-400/10 text-red-600 px-2 py-1 rounded">Emergency</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="emergency" data-chinese="我需要报警/打 110" data-english="Call Police/ Call 110">
+                        <h3 class="font-bold text-lg mb-2">Call Police/ Call 110 👮🚨</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Emergency situation</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-red-400/10 text-red-600 px-2 py-1 rounded">Emergency</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="phrase-card bg-neutral rounded-lg shadow p-4 transition-all hover:shadow-md phrase-item" data-category="emergency" data-chinese="我需要救护车" data-english="Call 120 (Ambulance)">
+                        <h3 class="font-bold text-lg mb-2">Emergency Call 120/ Call Ambulance 🚑🚨</h3>
+                        <p class="text-sm text-neutral-dark/70 mb-3">Emergency situation</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs bg-red-400/10 text-red-600 px-2 py-1 rounded">Emergency</span>
+                            <button class="show-phrase-btn phrase-btn bg-white hover:bg-primary/5 text-primary border border-primary/30 px-3 py-1 rounded-lg text-sm flex items-center">
+                                <i class="fa fa-eye mr-1"></i> Show
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- About Section -->
+        <section id="about" class="py-16 px-4 bg-white">
+            <div class="container mx-auto max-w-4xl text-center">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-primary mb-4">About Chinese Communication Assistant</h2>
+                <p class="text-neutral-dark/70 mb-8">
+                    Chinese Communication Assistant is a practical tool designed for foreign friends traveling, working, and living in China, helping you communicate effectively with local people. 
+                    Whether it's ride-hailing, dining, or other daily scenarios, just click a button to display clear Chinese information.
+                </p>
+                <div class="flex flex-wrap justify-center gap-6 mb-8">
+                    <div class="text-center">
+                        <div class="text-4xl text-primary mb-2"><i class="fa fa-bolt"></i></div>
+                        <p class="font-medium">Quick & Convenient</p>
+                        <p class="text-sm text-neutral-dark/60">One-click display, instant communication</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl text-primary mb-2"><i class="fa fa-paint-brush"></i></div>
+                        <p class="font-medium">Clear Display</p>
+                        <p class="text-sm text-neutral-dark/60">Large font, easy to read</p>
+                    </div>
+                </div>
+                <a href="#home" class="inline-flex items-center justify-center bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg shadow-md transition-all duration-300">
+                    <i class="fa fa-arrow-up mr-2"></i> Back to Top
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+        <footer class="bg-neutral-dark text-white py-8 px-4">
+            <div class="container mx-auto max-w-6xl">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="mb-4 md:mb-0">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa fa-comment text-primary text-xl"></i>
+                            <span class="font-bold text-lg">Chinese Assistant</span>
+                        </div>
+                        <p class="text-neutral-dark/50 text-sm mt-1">Helping foreigners communicate easily in China</p>
+                    </div>
+                    <div class="text-center md:text-right">
+                        <p class="text-neutral-dark/50 text-sm">© 2023 Chinese Assistant - All Rights Reserved</p>
+                        <p class="text-neutral-dark/40 text-xs mt-1">Designed and developed: Making communication simpler</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+    </div>
+</body>
+</html>
